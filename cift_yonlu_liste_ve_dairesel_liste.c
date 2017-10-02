@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//<----------------------------------cift_yonlu_bagli_liste------------------------------------->
 struct cift_yonlu_eleman{
 	int icerik;
 	struct cift_yonlu_eleman* ileri;
@@ -84,21 +85,21 @@ void listeden_sil(Celemanptr s){
 }
 
 void liste_yazdir(Clisteptr liste){
-  Celemanptr eleman;
-  eleman=liste->bas;
-  while(eleman!=NULL){
-      printf("%4d ",eleman->icerik);
-      eleman=eleman->ileri;
-  }
+ 	Celemanptr eleman;
+ 	eleman=liste->bas;
+ 	while(eleman!=NULL){
+		printf("%4d ",eleman->icerik);
+		eleman=eleman->ileri;
+	}
 }
 
 void liste_yazdir_sondan(Clisteptr liste){
-  Celemanptr eleman;
-  eleman=liste->son;
-  while(eleman!=NULL){
-      printf("%4d ",eleman->icerik);
-      eleman=eleman->geri;
-  }
+	Celemanptr eleman;
+	eleman=liste->son;
+	while(eleman!=NULL){
+		printf("%4d ",eleman->icerik);
+		eleman=eleman->geri;
+	}
 }
 
 int eleman_sayisi(Celemanptr eleman){
@@ -149,8 +150,9 @@ void daire_eleman_sil(Celemanptr e, Dlisteptr d){
 	}
 }
 
-//------------------------------------------------------------
+//<----------------------------------------------------------------------->
 int main(int argc, char** argv) {
+	
     Clisteptr liste;
     liste=yeni_liste();
     liste_basina_ekle(yeni_eleman(100),liste);
@@ -158,19 +160,20 @@ int main(int argc, char** argv) {
     liste_sonuna_ekle(yeni_eleman(700),liste);
     liste_ortasina_ekle(yeni_eleman(9),liste->bas->ileri);
     liste_yazdir(liste);
-    printf("\n");
+printf("\n");
 	liste_yazdir_sondan(liste);
-	printf("\n");
+printf("\n");
 	listeden_sil(liste->bas->ileri);
 	liste_yazdir(liste);
-	printf("\n");
+printf("\n");
 	liste_basini_sil(liste);
 	liste_yazdir(liste);
-	printf("\n");
+printf("\n");
 	liste_sonunu_sil(liste);
 	liste_yazdir(liste);
-    printf("\n");
-    printf("Eleman sayisi: %4d\n",eleman_sayisi(liste->bas));
+printf("\n");
+	printf("Eleman sayisi: %4d\n",eleman_sayisi(liste->bas));
+	
 	Dlisteptr dliste = yeni_daire_liste();
 	daire_eleman_ekle(yeni_eleman(111),dliste);
 	daire_eleman_ekle(yeni_eleman(222),dliste);
