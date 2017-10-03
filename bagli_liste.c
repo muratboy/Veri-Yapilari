@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-//<------------------------------bagli_liste----------------------
+//<------------------------------bagli_liste---------------------->
 //bagli liste eleman tanimlama
 struct eleman{
 	int icerik;
@@ -147,33 +147,33 @@ void listeden_sil(Listeptr l,Elemanptr s){
 }
 
 void liste_eleman_sil(Listeptr l, int silinen){
-    Elemanptr simdiki,onceki;
-    simdiki=l->bas;
-    while(simdiki!=NULL && simdiki->icerik!=silinen){
+	Elemanptr simdiki,onceki;
+	simdiki=l->bas;
+	while(simdiki!=NULL && simdiki->icerik!=silinen){
         onceki=simdiki;
         simdiki=simdiki->ileri;
-    }
-    if(simdiki==NULL) return;
-    else if(simdiki==l->bas) {
-        l->bas=l->bas->ileri;
-        if(simdiki==l->son) l->son = l->bas;
-    }
-    else{
+	}
+	if(simdiki==NULL) return;
+	else if(simdiki==l->bas) {
+		l->bas=l->bas->ileri;
+    		if(simdiki==l->son) l->son = l->bas;
+    	}
+    	else{
         onceki->ileri=simdiki->ileri;
         if(simdiki==l->son) l->son = onceki;
-    }
+    	}
 }
 
 void liste_sil(Listeptr *l){
-    Elemanptr simdiki,sonraki;
-    simdiki=(*l)->bas;
-    while(simdiki!=NULL){
-        sonraki=simdiki->ileri;
-        free(simdiki);
-        simdiki=sonraki;
-    }
-    free(*l);
-    *l=NULL;
+	Elemanptr simdiki,sonraki;
+    	simdiki=(*l)->bas;
+    	while(simdiki!=NULL){
+        	sonraki=simdiki->ileri;
+        	free(simdiki);
+        	simdiki=sonraki;
+    	}
+    	free(*l);
+    	*l=NULL;
 }
 
 int eleman_sayisi(Listeptr l){
@@ -219,18 +219,18 @@ void liste_yaz_tersten(Elemanptr liste_basi){
 }
 
 Elemanptr *ters(Elemanptr *liste_basi){
-    Elemanptr gecici;
-    if(*liste_basi==NULL)// yada if(!*liste_basi)
+    	Elemanptr gecici;
+    	if(*liste_basi==NULL)// yada if(!*liste_basi)
 		return liste_basi;
-    else if((*liste_basi)->ileri==NULL)
+    	else if((*liste_basi)->ileri==NULL)
 		return &((*liste_basi)->ileri);
-    else {
-        gecici=*liste_basi;
-        *liste_basi=(*liste_basi)->ileri;
-        *ters(liste_basi)=gecici;
-         gecici->ileri=NULL;
-        return &(gecici->ileri);
-    }
+    	else {
+        	gecici=*liste_basi;
+        	*liste_basi=(*liste_basi)->ileri;
+        	*ters(liste_basi)=gecici;
+         	gecici->ileri=NULL;
+        	return &(gecici->ileri);
+    	}
 }
 //----------------------------------------------------------------
 int main(int argc, char** argv) {
