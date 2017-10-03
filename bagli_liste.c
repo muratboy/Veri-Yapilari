@@ -53,7 +53,7 @@ void liste_sonuna_ekle(Listeptr l,Elemanptr yeni){
 	l->son = yeni;
 }
 
-void liste_ortaya_ekle(Elemanptr yeni,Elemanptr once){
+void liste_ortaya_ekle(Elemanptr once,Elemanptr yeni){
 	yeni->ileri = once->ileri;//yeni'yi eklenecek yerin ilerisine tuttur
 	once->ileri = yeni;//sonra once'nin bagini kopar yeniye bagla
 }
@@ -73,7 +73,10 @@ void liste_sirali_ekle(Listeptr l, Elemanptr yeni){
        yeni->ileri=l->bas;
        l->bas=yeni;
     }
+   
     else {
+		if(simdiki==NULL)
+			l->son=yeni;//listenin sonunun yeri kaydigi icin ekledim
         onceki->ileri=yeni;
         yeni->ileri=simdiki;
     }
@@ -104,14 +107,14 @@ Elemanptr liste_ara(Listeptr l,int deger){
 	return NULL;
 }
 
-Elemanptr inci_eleman(Listeptr l,int i){
+int inci_eleman(Listeptr l,int i){
 	Elemanptr temp = l->bas;
 	int j = 0;
 	while (temp != NULL && j<i){
 		j++;
 		temp = temp->ileri;
 	}
-	return temp;
+	return j;
 }
 
 void liste_basi_sil(Listeptr l){
@@ -214,16 +217,16 @@ void liste_yaz(Listeptr l){
 void liste_yaz_tersten(Elemanptr liste_basi){
     if(liste_basi){//yada if(liste_basi!=NULL)
         liste_yaz_tersten(liste_basi->ileri);
-        printf("%5d ",liste_basi->icerik);
+        printf("%4d ",liste_basi->icerik);
     }
 }
 
 Elemanptr *ters(Elemanptr *liste_basi){
     	Elemanptr gecici;
-    	if(*liste_basi==NULL)// yada if(!*liste_basi)
-		return liste_basi;
+    	if(*liste_basi==NULL)
+			return liste_basi;
     	else if((*liste_basi)->ileri==NULL)
-		return &((*liste_basi)->ileri);
+			return &((*liste_basi)->ileri);
     	else {
         	gecici=*liste_basi;
         	*liste_basi=(*liste_basi)->ileri;
@@ -235,24 +238,84 @@ Elemanptr *ters(Elemanptr *liste_basi){
 //----------------------------------------------------------------
 int main(int argc, char** argv) {
     Listeptr liste1;
-    //Listeptr sirali;
+    Listeptr liste2;
 
     liste1=yeni_liste();
+    liste2=yeni_liste();
     liste_basina_ekle(liste1,yeni_eleman(20));
     liste_basina_ekle(liste1,yeni_eleman(80));
     liste_sonuna_ekle(liste1,yeni_eleman(-50));
     liste_sonuna_ekle(liste1,yeni_eleman(-30));
     liste_sonuna_ekle(liste1,yeni_eleman(-100));
     liste_sonuna_ekle(liste1,yeni_eleman(300));
-    liste_sonuna_ekle(liste1,yeni_eleman(76));
-    liste_sonuna_ekle(liste1,yeni_eleman(67));
+    liste_sonuna_ekle(liste1,yeni_eleman(760));
+    liste_sonuna_ekle(liste1,yeni_eleman(670));
+    liste_ortaya_ekle(liste1->bas->ileri->ileri,yeni_eleman(140));
+    liste_basina_ekle(liste2,yeni_eleman(81));
+    liste_sonuna_ekle(liste2,yeni_eleman(-51));
+    liste_sonuna_ekle(liste2,yeni_eleman(-31));
+    liste_sonuna_ekle(liste2,yeni_eleman(-101));
+    liste_ortaya_ekle(liste2->bas->ileri,yeni_eleman(171));
 
+    printf("olusturdugunuz liste:\n");
     liste_yaz(liste1);
-    printf("\n");
-
-    ters(&(liste1->bas));
+   
+    printf("listenin eleman sayisi:\n");
+    printf("%4d\n",eleman_sayisi(liste1));
+    
+    liste_sirala(liste1);
+    printf("listenin siralanmis hali:\n");
     liste_yaz(liste1);
-    printf("\n");
-
+	
+	liste_sirali_ekle(liste1,yeni_eleman(40));
+	printf("yeni eklenen elemanin sirali eklenmis hali:\n");
+	liste_yaz(liste1);
+	
+	printf("listenin tersten yazdirilmasi:\n");
+	liste_yaz_tersten(liste1->bas);
+	printf("\n");
+/*    	
+    ters(&(liste1->bas));//sorun var
+    printf("listenin tersten siralanmis hali:\n");
+    liste_yaz(liste1);
+printf("son%4d,bas%4d\n",liste1->son->icerik,liste1->bas->icerik);
+*/
+	printf("birinci liste:\n");
+	liste_yaz(liste1);
+	printf("ikinci liste:\n");
+	liste_yaz(liste2);
+	Listeptr liste3 = birlestir(liste1,liste2);
+	printf("birinci ve ikinci listenin birlesmesiyle olusan ucuncu liste:\n");
+	liste_yaz(liste3);
+	
+	Elemanptr aranilan = liste_ara(liste3,80);
+	if(aranilan)
+		printf("aradiginiz deger listede mevcut\n\n");
+	else
+		printf("aradiginiz deger listede yok\n\n");
+	
+	int kacinci = inci_eleman(liste3,80);
+		printf("aradiginiz deger listede %d. sirada\n\n",kacinci);
+	
+	liste_basi_sil(liste3);
+	printf("listenin basindan eleman silindi:\n");
+	liste_yaz(liste3);
+	
+	liste_sonu_sil(liste3);
+	printf("listenin sonundan eleman silindi:\n");
+	liste_yaz(liste3);
+	
+	listeden_sil(liste3,liste3->bas->ileri->ileri);
+	printf("listeden istediginiz eleman silindi:\n");
+	liste_yaz(liste3);
+	
+	printf("listeden istediginiz degerdeki eleman silindi:\n");
+	liste_eleman_sil(liste3,-50);
+	liste_yaz(liste3);
+	
+	liste_sil(&liste3);
+	if(!liste3)
+		printf("liste silindi\n");
+	
     return (EXIT_SUCCESS);
 }
