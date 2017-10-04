@@ -8,12 +8,12 @@ struct eleman{
 };
 
 typedef struct eleman Eleman;
-typedef Eleman* Elemanptr;
+typedef Eleman* Elemanptr;//kolaylik olmasi acisindan kisaltmalar
 
 //bagli liste yeni eleman olusturma
 Elemanptr yeni_eleman(int icerik){
 	Elemanptr eleman;
-	eleman = (Elemanptr)malloc(sizeof(Eleman));
+	eleman = (Elemanptr)malloc(sizeof(Eleman));//heap'te elemana yer ayir
 	eleman->icerik = icerik;
 	eleman->ileri = NULL;
 	return eleman;
@@ -58,40 +58,44 @@ void liste_ortaya_ekle(Elemanptr once,Elemanptr yeni){
 	once->ileri = yeni;//sonra once'nin bagini kopar yeniye bagla
 }
 
+//yeni elemani listeye buyuklugune gore ilk uygun yere ekleme
 void liste_sirali_ekle(Listeptr l, Elemanptr yeni){
     Elemanptr onceki,simdiki;
     onceki=NULL;
     simdiki=l->bas;
+    //listede yeni'nin iceriginden buyuk icerikli bir eleman bulana kadar ilerliyoruz
     while(simdiki!=NULL && simdiki->icerik < yeni->icerik){
-        onceki=simdiki;
+        onceki=simdiki;//geriye gidemedigimiz icin bir onceki konumu tutuyoruz
         simdiki=simdiki->ileri;
     }
+    //liste bossa 
     if(l->bas==NULL) {
         l->bas=l->son=yeni;
     }
+    //while dongusuyle yeni'nin iceriginden daha buyuk icerikli bir eleman bulunamadiysa
     else if(simdiki==l->bas) {
        yeni->ileri=l->bas;
        l->bas=yeni;
     }
-   
+	//while dongusunde bulunan yeniden buyuk elemanin bir oncesine yeniyi ekliyoruz
     else {
-		if(simdiki==NULL)
-			l->son=yeni;//listenin sonunun yeri kaydigi icin ekledim
+		if(simdiki==NULL) l->son=yeni;//listenin sonunun yeri kaydigi icin ekledim
         onceki->ileri=yeni;
         yeni->ileri=simdiki;
     }
 }
 
+//tum listeyi siralama(liste_sirali_ekle(..) fonksiyonuyla birlikte calisiyor)
 void liste_sirala(Listeptr l){
     Elemanptr simdiki,sonraki;
-    if(l->bas == l->son) return;
-    simdiki=l->bas->ileri;
-    l->bas->ileri=NULL;
-    l->son=l->bas;
-    while(simdiki!=NULL){
+    if(l->bas == l->son) return;//tek elemanli
+    simdiki=l->bas->ileri;//liste basindan sonraki listeyi gecici olarak tut
+    l->bas->ileri=NULL;//listenin basini listeden ayir 
+    l->son=l->bas;//tek elemanli bir listemiz oldu
+    while(simdiki!=NULL){//gecici listede eleman kalmayana kadar 
         sonraki=simdiki->ileri;
-        simdiki->ileri=NULL;
-        liste_sirali_ekle(l,simdiki);
+        simdiki->ileri=NULL;//tek tek listenin baslarini gecici listeden ayir
+        liste_sirali_ekle(l,simdiki);//her ayrilan elemani basta elde ettigimiz listeye sirali ekle
         simdiki=sonraki;
     }
 }
@@ -221,6 +225,7 @@ void liste_yaz_tersten(Elemanptr liste_basi){
     }
 }
 
+//listeyi özyinelemeli olarak ters çevirme
 Elemanptr *ters(Elemanptr *liste_basi){
     	Elemanptr gecici;
     	if(*liste_basi==NULL)
@@ -242,6 +247,7 @@ int main(int argc, char** argv) {
 
     liste1=yeni_liste();
     liste2=yeni_liste();
+    
     liste_basina_ekle(liste1,yeni_eleman(20));
     liste_basina_ekle(liste1,yeni_eleman(80));
     liste_sonuna_ekle(liste1,yeni_eleman(-50));
@@ -251,6 +257,7 @@ int main(int argc, char** argv) {
     liste_sonuna_ekle(liste1,yeni_eleman(760));
     liste_sonuna_ekle(liste1,yeni_eleman(670));
     liste_ortaya_ekle(liste1->bas->ileri->ileri,yeni_eleman(140));
+    
     liste_basina_ekle(liste2,yeni_eleman(81));
     liste_sonuna_ekle(liste2,yeni_eleman(-51));
     liste_sonuna_ekle(liste2,yeni_eleman(-31));
@@ -259,27 +266,28 @@ int main(int argc, char** argv) {
 
     printf("olusturdugunuz liste:\n");
     liste_yaz(liste1);
-   
+
     printf("listenin eleman sayisi:\n");
     printf("%4d\n",eleman_sayisi(liste1));
-    
+
     liste_sirala(liste1);
     printf("listenin siralanmis hali:\n");
     liste_yaz(liste1);
-	
+
 	liste_sirali_ekle(liste1,yeni_eleman(40));
 	printf("yeni eklenen elemanin sirali eklenmis hali:\n");
 	liste_yaz(liste1);
-	
+
 	printf("listenin tersten yazdirilmasi:\n");
 	liste_yaz_tersten(liste1->bas);
 	printf("\n");
-/*    	
-    ters(&(liste1->bas));//sorun var
+	
+	{liste1->son=liste1->bas;
+    ters(&(liste1->bas));}//ters(..) fonksiyonu listenin sonunu degistirmedigi icin
+    //listeyi fonksiyona sokmadan once listenin sonunu basa aldım 
     printf("listenin tersten siralanmis hali:\n");
     liste_yaz(liste1);
-printf("son%4d,bas%4d\n",liste1->son->icerik,liste1->bas->icerik);
-*/
+
 	printf("birinci liste:\n");
 	liste_yaz(liste1);
 	printf("ikinci liste:\n");
@@ -287,35 +295,35 @@ printf("son%4d,bas%4d\n",liste1->son->icerik,liste1->bas->icerik);
 	Listeptr liste3 = birlestir(liste1,liste2);
 	printf("birinci ve ikinci listenin birlesmesiyle olusan ucuncu liste:\n");
 	liste_yaz(liste3);
-	
+
 	Elemanptr aranilan = liste_ara(liste3,80);
 	if(aranilan)
 		printf("aradiginiz deger listede mevcut\n\n");
 	else
 		printf("aradiginiz deger listede yok\n\n");
-	
+
 	int kacinci = inci_eleman(liste3,80);
 		printf("aradiginiz deger listede %d. sirada\n\n",kacinci);
-	
+
 	liste_basi_sil(liste3);
 	printf("listenin basindan eleman silindi:\n");
 	liste_yaz(liste3);
-	
+
 	liste_sonu_sil(liste3);
 	printf("listenin sonundan eleman silindi:\n");
 	liste_yaz(liste3);
-	
+
 	listeden_sil(liste3,liste3->bas->ileri->ileri);
 	printf("listeden istediginiz eleman silindi:\n");
 	liste_yaz(liste3);
-	
+
 	printf("listeden istediginiz degerdeki eleman silindi:\n");
 	liste_eleman_sil(liste3,-50);
 	liste_yaz(liste3);
-	
+
 	liste_sil(&liste3);
 	if(!liste3)
 		printf("liste silindi\n");
-	
+
     return (EXIT_SUCCESS);
 }
