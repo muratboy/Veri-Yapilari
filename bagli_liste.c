@@ -72,12 +72,12 @@ void liste_sirali_ekle(Listeptr l, Elemanptr yeni){
     if(l->bas==NULL) {
         l->bas=l->son=yeni;
     }
-    //while dongusuyle yeni'nin iceriginden daha buyuk icerikli bir eleman bulunamadiysa
+	//while dongusuyle yeni'nin iceriginden daha buyuk icerikli bir eleman bulunamadiysa
     else if(simdiki==l->bas) {
        yeni->ileri=l->bas;
        l->bas=yeni;
     }
-	//while dongusunde bulunan yeniden buyuk elemanin bir oncesine yeniyi ekliyoruz
+	//while dongusunde bulunan yeni'den buyuk elemanin bir oncesine yeniyi ekliyoruz
     else {
 		if(simdiki==NULL) l->son=yeni;//listenin sonunun yeri kaydigi icin ekledim
         onceki->ileri=yeni;
