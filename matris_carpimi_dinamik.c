@@ -69,7 +69,7 @@ void matris_carpimi_dinamik(int **A,int A_satir, int A_sutun,
                 for(k=0; k<A_sutun; k++)
                     C[i][j]=C[i][j]+A[i][k]*B[k][j];
                     
-		}   
+	}   
     }
 }
 
@@ -83,7 +83,7 @@ int main(int argc, char** argv) {
     tek_boyutlu_dizi_olustur(d,10);
     print_tek_boyutlu_dizi(d);
  
-	printf("---------------------dinamik_matris-------------------------\n");
+    printf("---------------------dinamik_matris-------------------------\n");
     matris_olustur_dinamik(&A,5,6);
     matris_olustur_dinamik(&B,6,7);
     matris_olustur_dinamik(&C,5,7);
