@@ -107,7 +107,7 @@ int eleman_sayisi(Celemanptr eleman){
      return 1+eleman_sayisi(eleman->ileri);
 }
 
-//<-------------------------------------dairesel bagli liste------------------------------->
+//<-------------------------------------dairesel_bagli_liste------------------------------->
 
 struct daireliste{
 	Celemanptr bas;
