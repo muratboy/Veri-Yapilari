@@ -72,12 +72,12 @@ void liste_sirali_ekle(Listeptr l, Elemanptr yeni){
     if(l->bas==NULL) {
         l->bas=l->son=yeni;
     }
-	//while dongusuyle yeni'nin iceriginden daha buyuk icerikli bir eleman bulunamadiysa
+    //while dongusuyle yeni'nin iceriginden daha buyuk icerikli bir eleman bulunamadiysa
     else if(simdiki==l->bas) {
        yeni->ileri=l->bas;
        l->bas=yeni;
     }
-	//while dongusunde bulunan yeni'den buyuk elemanin bir oncesine yeniyi ekliyoruz
+    //while dongusunde bulunan yeni'den buyuk elemanin bir oncesine yeniyi ekliyoruz
     else {
 		if(simdiki==NULL) l->son=yeni;//listenin sonunun yeri kaydigi icin ekledim
         onceki->ileri=yeni;
@@ -89,12 +89,12 @@ void liste_sirali_ekle(Listeptr l, Elemanptr yeni){
 void liste_sirala(Listeptr l){
     Elemanptr simdiki,sonraki;
     if(l->bas == l->son) return;//tek elemanli
-    simdiki=l->bas->ileri;//liste basindan sonraki listeyi gecici olarak tut
-    l->bas->ileri=NULL;//listenin basini listeden ayir 
-    l->son=l->bas;//tek elemanli bir listemiz oldu
-    while(simdiki!=NULL){//gecici listede eleman kalmayana kadar 
+    simdiki=l->bas->ileri;	//liste basindan sonraki listeyi gecici olarak tut
+    l->bas->ileri=NULL;		//listenin basini listeden ayir 
+    l->son=l->bas;		//tek elemanli bir listemiz oldu
+    while(simdiki!=NULL){	//gecici listede eleman kalmayana kadar 
         sonraki=simdiki->ileri;
-        simdiki->ileri=NULL;//tek tek listenin baslarini gecici listeden ayir
+        simdiki->ileri=NULL;	//tek tek listenin baslarini gecici listeden ayir
         liste_sirali_ekle(l,simdiki);//her ayrilan elemani basta elde ettigimiz listeye sirali ekle
         simdiki=sonraki;
     }
