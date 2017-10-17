@@ -29,9 +29,9 @@ void matris_olustur_dinamik(int ***dizi,int satir,int sutun){
     *dizi=(int**)malloc(satir*sizeof(int*));
    
     for(i=0; i<satir; i++){
-        *(*dizi+i)= (int*)malloc(sutun*sizeof(int));//i. satir icin sutun sayisi kadar yer ayir
+        *(*dizi+i)= (int*)malloc(sutun*sizeof(int));	//i. satir icin sutun sayisi kadar yer ayir
         for(j=0; j<sutun; j++)
-            *(*(*dizi+i)+j)= rand()%10;	//i. satirdaki elemanlarin herbirine 0<=rastgele degerler<10 ata
+            *(*(*dizi+i)+j)= rand()%10;			//i. satirdaki elemanlarin herbirine 0<=rastgele degerler<10 ata
     }
 }
 
