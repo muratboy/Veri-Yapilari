@@ -4,25 +4,25 @@
 //bagli liste eleman tanimlama
 struct eleman{
 	int icerik;
-	struct eleman* ileri;
+	struct eleman* ileri;		//elemanin kendisinden sonraki elemani isaret etmesi icin pointer
 };
 
 typedef struct eleman Eleman;
-typedef Eleman* Elemanptr;//kolaylik olmasi acisindan kisaltmalar
+typedef Eleman* Elemanptr;		//kolaylik olmasi acisindan kisaltmalar
 
 //bagli liste yeni eleman olusturma
 Elemanptr yeni_eleman(int icerik){
 	Elemanptr eleman;
 	eleman = (Elemanptr)malloc(sizeof(Eleman));//heap'te elemana yer ayir
-	eleman->icerik = icerik;
-	eleman->ileri = NULL;
+	eleman->icerik = icerik;	//olusturulan elemanın icerik ozelligine parametre olarak gelen icerik atanir
+	eleman->ileri = NULL;		//eleman yeni olusturuldugundan bir yere isaret etmez
 	return eleman;
 }
 
 //bagli liste tanimlama
 struct liste{
-	Elemanptr bas;
-	Elemanptr son;
+	Elemanptr bas;				//elemanlardan olusan bir liste tanimliyoruz
+	Elemanptr son;				//listenin basindaki ve sonundaki elemanlari isaret eden pointerlar tanimliyoruz
 };
 
 typedef struct liste Liste;
@@ -32,19 +32,20 @@ typedef Liste* Listeptr;
 Listeptr yeni_liste(){
 	Listeptr liste;
 	liste = (Listeptr)malloc(sizeof(Liste));
-	liste->bas = liste->son = NULL;
+	liste->bas = liste->son = NULL;//yeni olusturulan listenin hic elemani olmadigindan ilk ve son elemani NULL
 	return liste;
 }
 
+//l isimli listenin basina yeni isimli elemani ekleme
 void liste_basina_ekle(Listeptr l,Elemanptr yeni){
 	if(l->bas == NULL)//yada if(!l->bas)
-		l->son = yeni;
+		l->son = yeni;			//listenin basi bos ise(yani liste bos ise) listenin basi ve sonu yeni olacak
 	else
-		yeni->ileri = l->bas;//liste bos olmadiginda yeni'nin sonuna listenin basini bagla
-	l->bas = yeni;
-//listenin basi bos ise(yani liste bos ise) listenin basi ve sonu yeni olacak
+		yeni->ileri = l->bas;	//liste bos olmadiginda yeni'nin sonuna listenin basini bagla
+	l->bas = yeni;				//listenin basi yeni elemani gostersin								
 }
 
+//l isimli listenin sonuna yeni isimli elemani ekleme
 void liste_sonuna_ekle(Listeptr l,Elemanptr yeni){
 	if(l->son == NULL)
 		l->bas = yeni;
