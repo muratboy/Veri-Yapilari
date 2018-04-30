@@ -21,8 +21,8 @@ Elemanptr yeni_eleman(int icerik){
 
 //bagli liste tanimlama
 struct liste{
-	Elemanptr bas;				//elemanlardan olusan bir liste tanimliyoruz
-	Elemanptr son;				//listenin basindaki ve sonundaki elemanlari isaret eden pointerlar tanimliyoruz
+	Elemanptr bas;			//elemanlardan olusan bir liste tanimliyoruz
+	Elemanptr son;			//listenin basindaki ve sonundaki elemanlari isaret eden pointerlar tanimliyoruz
 };
 
 typedef struct liste Liste;
@@ -39,10 +39,10 @@ Listeptr yeni_liste(){
 //l isimli listenin basina yeni isimli elemani ekleme
 void liste_basina_ekle(Listeptr l,Elemanptr yeni){
 	if(l->bas == NULL)//yada if(!l->bas)
-		l->son = yeni;			//listenin basi bos ise(yani liste bos ise) listenin basi ve sonu yeni olacak
+		l->son = yeni;		//listenin basi bos ise(yani liste bos ise) listenin basi ve sonu yeni olacak
 	else
 		yeni->ileri = l->bas;	//liste bos olmadiginda yeni'nin sonuna listenin basini bagla
-	l->bas = yeni;				//listenin basi yeni elemani gostersin								
+	l->bas = yeni;			//listenin basi yeni elemani gostersin								
 }
 
 //l isimli listenin sonuna yeni isimli elemani ekleme
@@ -50,13 +50,13 @@ void liste_sonuna_ekle(Listeptr l,Elemanptr yeni){
 	if(l->son == NULL)
 		l->bas = yeni;
 	else
-		l->son->ileri = yeni;//liste bos olmadiginda listenin sonuna yeni'yi bagla
+		l->son->ileri = yeni;	//liste bos olmadiginda listenin sonuna yeni'yi bagla
 	l->son = yeni;
 }
 
 void liste_ortaya_ekle(Elemanptr once,Elemanptr yeni){
-	yeni->ileri = once->ileri;//yeni'yi eklenecek yerin ilerisine tuttur
-	once->ileri = yeni;//sonra once'nin bagini kopar yeniye bagla
+	yeni->ileri = once->ileri;	//yeni'yi eklenecek yerin ilerisine tuttur
+	once->ileri = yeni;		//sonra once'nin bagini kopar yeniye bagla
 }
 
 //yeni elemani listeye buyuklugune gore ilk uygun yere ekleme
@@ -66,7 +66,7 @@ void liste_sirali_ekle(Listeptr l, Elemanptr yeni){
     simdiki=l->bas;
     //listede yeni'nin iceriginden buyuk icerikli bir eleman bulana kadar ilerliyoruz
     while(simdiki!=NULL && simdiki->icerik < yeni->icerik){
-        onceki=simdiki;//geriye gidemedigimiz icin bir onceki konumu tutuyoruz
+        onceki=simdiki;			//geriye gidemedigimiz icin bir onceki konumu tutuyoruz
         simdiki=simdiki->ileri;
     }
     //liste bossa 
@@ -89,14 +89,14 @@ void liste_sirali_ekle(Listeptr l, Elemanptr yeni){
 //tum listeyi siralama(liste_sirali_ekle(..) fonksiyonuyla birlikte calisiyor)
 void liste_sirala(Listeptr l){
     Elemanptr simdiki,sonraki;
-    if(l->bas == l->son) return;//tek elemanli
-    simdiki=l->bas->ileri;	//liste basindan sonraki listeyi gecici olarak tut
-    l->bas->ileri=NULL;		//listenin basini listeden ayir 
-    l->son=l->bas;		//tek elemanli bir listemiz oldu
-    while(simdiki!=NULL){	//gecici listede eleman kalmayana kadar 
+    if(l->bas == l->son) return;	//tek elemanli
+    simdiki=l->bas->ileri;		//liste basindan sonraki listeyi gecici olarak tut
+    l->bas->ileri=NULL;			//listenin basini listeden ayir 
+    l->son=l->bas;			//tek elemanli bir listemiz oldu
+    while(simdiki!=NULL){		//gecici listede eleman kalmayana kadar 
         sonraki=simdiki->ileri;
-        simdiki->ileri=NULL;	//tek tek listenin baslarini gecici listeden ayir
-        liste_sirali_ekle(l,simdiki);//her ayrilan elemani basta elde ettigimiz listeye sirali ekle
+        simdiki->ileri=NULL;		//tek tek listenin baslarini gecici listeden ayir
+        liste_sirali_ekle(l,simdiki);	//her ayrilan elemani basta elde ettigimiz listeye sirali ekle
         simdiki=sonraki;
     }
 }
