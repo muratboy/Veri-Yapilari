@@ -21,8 +21,8 @@ Elemanptr yeni_eleman(int icerik){
 
 //bagli liste tanimlama
 struct liste{
-	Elemanptr bas;				//elemanlardan olusan bir liste tanimliyoruz
-	Elemanptr son;				//listenin basindaki ve sonundaki elemanlari isaret eden pointerlar tanimliyoruz
+	Elemanptr bas;			//elemanlardan olusan bir liste tanimliyoruz
+	Elemanptr son;			//listenin basindaki ve sonundaki elemanlari isaret eden pointerlar tanimliyoruz
 };
 
 typedef struct liste Liste;
@@ -39,24 +39,24 @@ Listeptr yeni_liste(){
 //l isimli listenin basina yeni isimli elemani ekleme
 void liste_basina_ekle(Listeptr l,Elemanptr yeni){
 	if(l->bas == NULL)//yada if(!l->bas)
-		l->son = yeni;			//listenin basi bos ise(yani liste bos ise) listenin basi ve sonu yeni olacak
+		l->son = yeni;		//listenin basi bos ise(yani liste bos ise) listenin basi ve sonu yeni olacak
 	else
 		yeni->ileri = l->bas;	//liste bos olmadiginda yeni'nin sonuna listenin basini bagla
-	l->bas = yeni;				//listenin basi yeni elemani gostersin								
+	l->bas = yeni;			//listenin basi yeni elemani gostersin								
 }
 
 //l isimli listenin sonuna yeni isimli elemani ekleme
 void liste_sonuna_ekle(Listeptr l,Elemanptr yeni){
-	if(l->son == NULL)			//liste bos ise
-		l->bas = yeni;			//listenin basi yeni olsun
+	if(l->son == NULL)		//liste bos ise
+		l->bas = yeni;		//listenin basi yeni olsun
 	else
 		l->son->ileri = yeni;	//liste bos olmadiginda listenin sonunun ilerisine yeni'yi bagla
-	l->son = yeni;				//listenin sonu yeni olsun
+	l->son = yeni;			//listenin sonu yeni olsun
 }
 
 void liste_ortaya_ekle(Elemanptr once,Elemanptr yeni){
 	yeni->ileri = once->ileri;	//yeni elemanin ilerisindeki eleman, eklenecek yerdeki elemanin ilerisindeki eleman olsun
-	once->ileri = yeni;			//yeni eleman oncenin ilerisini tuttuğuna gore oncenin ilerisi artik yeni olsun
+	once->ileri = yeni;		//yeni eleman oncenin ilerisini tuttuğuna gore oncenin ilerisi artik yeni olsun
 }
 
 //yeni elemani listeye buyuklugune gore ilk uygun yere ekleme
@@ -89,13 +89,13 @@ void liste_sirali_ekle(Listeptr l, Elemanptr yeni){
 //tum listeyi siralama(liste_sirali_ekle(..) fonksiyonuyla birlikte calisiyor)
 void liste_sirala(Listeptr l){
     Elemanptr simdiki,sonraki;
-    if(l->bas == l->son) return;//tek elemanli ise zaten sirali 
+    if(l->bas == l->son) return;	//tek elemanli ise zaten sirali 
     simdiki=l->bas->ileri;		//liste basindan sonraki listeyi gecici olarak tut
     l->bas->ileri=NULL;			//listenin basini listeden ayir 
-    l->son=l->bas;				//tek elemanli bir listemiz oldu
+    l->son=l->bas;			//tek elemanli bir listemiz oldu
     while(simdiki!=NULL){		//gecici listede eleman kalmayana kadar 
         sonraki=simdiki->ileri;
-        simdiki->ileri=NULL;	//tek tek listenin baslarini gecici listeden ayir
+        simdiki->ileri=NULL;		//tek tek listenin baslarini gecici listeden ayir
         liste_sirali_ekle(l,simdiki);	//her ayrilan elemani basta elde ettigimiz listeye sirali ekle
         simdiki=sonraki;
     }
@@ -243,37 +243,37 @@ Elemanptr *ters(Elemanptr *liste_basi){
 }
 //----------------------------------------------------------------
 int main(int argc, char** argv) {
-    Listeptr liste1;
-    Listeptr liste2;
+	Listeptr liste1;
+	Listeptr liste2;
 
-    liste1=yeni_liste();
-    liste2=yeni_liste();
+	liste1=yeni_liste();
+	liste2=yeni_liste();
     
-    liste_basina_ekle(liste1,yeni_eleman(20));
-    liste_basina_ekle(liste1,yeni_eleman(80));
-    liste_sonuna_ekle(liste1,yeni_eleman(-50));
-    liste_sonuna_ekle(liste1,yeni_eleman(-30));
-    liste_sonuna_ekle(liste1,yeni_eleman(-100));
-    liste_sonuna_ekle(liste1,yeni_eleman(300));
-    liste_sonuna_ekle(liste1,yeni_eleman(760));
-    liste_sonuna_ekle(liste1,yeni_eleman(670));
-    liste_ortaya_ekle(liste1->bas->ileri->ileri,yeni_eleman(140));
+	liste_basina_ekle(liste1,yeni_eleman(20));
+	liste_basina_ekle(liste1,yeni_eleman(80));
+	liste_sonuna_ekle(liste1,yeni_eleman(-50));
+	liste_sonuna_ekle(liste1,yeni_eleman(-30));
+	liste_sonuna_ekle(liste1,yeni_eleman(-100));
+	liste_sonuna_ekle(liste1,yeni_eleman(300));
+	liste_sonuna_ekle(liste1,yeni_eleman(760));
+	liste_sonuna_ekle(liste1,yeni_eleman(670));
+	liste_ortaya_ekle(liste1->bas->ileri->ileri,yeni_eleman(140));
     
-    liste_basina_ekle(liste2,yeni_eleman(81));
-    liste_sonuna_ekle(liste2,yeni_eleman(-51));
-    liste_sonuna_ekle(liste2,yeni_eleman(-31));
-    liste_sonuna_ekle(liste2,yeni_eleman(-101));
-    liste_ortaya_ekle(liste2->bas->ileri,yeni_eleman(171));
+	liste_basina_ekle(liste2,yeni_eleman(81));
+	liste_sonuna_ekle(liste2,yeni_eleman(-51));
+	liste_sonuna_ekle(liste2,yeni_eleman(-31));
+	liste_sonuna_ekle(liste2,yeni_eleman(-101));
+	liste_ortaya_ekle(liste2->bas->ileri,yeni_eleman(171));
 
-    printf("olusturdugunuz liste:\n");
-    liste_yaz(liste1);
+	printf("olusturdugunuz liste:\n");
+	liste_yaz(liste1);
 
-    printf("listenin eleman sayisi:\n");
-    printf("%4d\n",eleman_sayisi(liste1));
+	printf("listenin eleman sayisi:\n");
+	printf("%4d\n",eleman_sayisi(liste1));
 
-    liste_sirala(liste1);
-    printf("listenin siralanmis hali:\n");
-    liste_yaz(liste1);
+	liste_sirala(liste1);
+	printf("listenin siralanmis hali:\n");
+	liste_yaz(liste1);
 
 	liste_sirali_ekle(liste1,yeni_eleman(40));
 	printf("yeni eklenen elemanin sirali eklenmis hali:\n");
@@ -284,10 +284,10 @@ int main(int argc, char** argv) {
 	printf("\n");
 	
 	{liste1->son=liste1->bas;
-    ters(&(liste1->bas));}//ters(..) fonksiyonu listenin sonunu degistirmedigi icin
-    //listeyi fonksiyona sokmadan once listenin sonunu basa aldım 
-    printf("listenin tersten siralanmis hali:\n");
-    liste_yaz(liste1);
+	ters(&(liste1->bas));}//ters(..) fonksiyonu listenin sonunu degistirmedigi icin
+	//listeyi fonksiyona sokmadan once listenin sonunu basa aldım 
+	printf("listenin tersten siralanmis hali:\n");
+	liste_yaz(liste1);
 
 	printf("birinci liste:\n");
 	liste_yaz(liste1);
@@ -326,5 +326,5 @@ int main(int argc, char** argv) {
 	if(!liste3)
 		printf("liste silindi\n");
 
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
